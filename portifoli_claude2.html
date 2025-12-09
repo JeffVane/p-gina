@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfólio - Desenvolvedor Full Stack</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        .custom-cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #0ff;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: all 0.1s ease;
+            box-shadow: 0 0 20px #0ff, 0 0 40px #0ff;
+        }
+
+        .cursor-trail {
+            width: 8px;
+            height: 8px;
+            background: #f0f;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            animation: fadeOut 1s forwards;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: scale(0);
+            }
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .profile-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 40px;
+        }
+
+        .profile-img {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid rgba(0, 255, 255, 0.3);
+            box-shadow: 0 0 60px rgba(0, 255, 255, 0.6),
+                        0 0 120px rgba(255, 0, 255, 0.4),
+                        inset 0 0 60px rgba(0, 255, 255, 0.2);
+            animation: float 6s ease-in-out infinite, pulse 2s ease-in-out infinite;
+            transition: transform 0.3s ease;
+            filter: brightness(1.1) contrast(1.1);
+        }
+
+        .profile-img:hover {
+            transform: scale(1.1) rotate(5deg);
+            filter: brightness(1.3) contrast(1.2) saturate(1.5);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(5deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 60px rgba(0, 255, 255, 0.6), 0 0 120px rgba(255, 0, 255, 0.4); }
+            50% { box-shadow: 0 0 80px rgba(0, 255, 255, 0.8), 0 0 150px rgba(255, 0, 255, 0.6); }
+        }
+
+        .glow-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            border: 2px solid;
+            border-image: linear-gradient(45deg, #0ff, #f0f, #ff0, #0ff) 1;
+            animation: rotate 8s linear infinite, colorShift 4s ease-in-out infinite;
+            filter: blur(1px);
+        }
+
+        .glow-ring::before {
+            content: '';
+            position: absolute;
+            top: -30px;
+            left: -30px;
+            right: -30px;
+            bottom: -30px;
+            border-radius: 50%;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            animation: rotate 12s linear infinite reverse;
+        }
+
+        @keyframes rotate {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        @keyframes colorShift {
+            0%, 100% { filter: blur(1px) hue-rotate(0deg); }
+            50% { filter: blur(2px) hue-rotate(180deg); }
+        }
+
+        h1 {
+            font-size: 4.5em;
+            font-weight: 900;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #0ff, #f0f, #ff0, #0ff);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientFlow 3s ease infinite, glitch 5s infinite;
+            letter-spacing: -2px;
+            text-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+            filter: drop-shadow(0 0 20px rgba(255, 0, 255, 0.5));
+        }
+
+        @keyframes gradientFlow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes glitch {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+        }
+
+        .role {
+            font-size: 1.5em;
+            color: #0ff;
+            margin-bottom: 30px;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            font-weight: 300;
+            animation: neonPulse 2s ease-in-out infinite;
+            text-shadow: 0 0 10px #0ff, 0 0 20px #0ff, 0 0 30px #0ff;
+        }
+
+        @keyframes neonPulse {
+            0%, 100% { opacity: 1; text-shadow: 0 0 10px #0ff, 0 0 20px #0ff, 0 0 30px #0ff; }
+            50% { opacity: 0.8; text-shadow: 0 0 20px #0ff, 0 0 40px #0ff, 0 0 60px #0ff; }
+        }
+
+        .bio {
+            font-size: 1.1em;
+            color: #aaa;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.8;
+            animation: fadeInUp 1s ease;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        section {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        h2 {
+            font-size: 3em;
+            font-weight: 800;
+            margin-bottom: 60px;
+            text-align: center;
+            background: linear-gradient(90deg, #0ff, #f0f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            animation: slideIn 0.8s ease;
+            filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.5));
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .skill-card {
+            background: rgba(0, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 40px 30px;
+            border-radius: 20px;
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            animation: cardFloat 3s ease-in-out infinite;
+        }
+
+        .skill-card:nth-child(2) { animation-delay: 0.5s; }
+        .skill-card:nth-child(3) { animation-delay: 1s; }
+        .skill-card:nth-child(4) { animation-delay: 1.5s; }
+
+        @keyframes cardFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.3) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s;
+            animation: rotateBg 10s linear infinite;
+        }
+
+        @keyframes rotateBg {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .skill-card:hover::before {
+            opacity: 1;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-15px) scale(1.05) rotateZ(2deg);
+            border-color: #0ff;
+            box-shadow: 0 30px 80px rgba(0, 255, 255, 0.4),
+                        0 0 50px rgba(255, 0, 255, 0.3),
+                        inset 0 0 30px rgba(0, 255, 255, 0.1);
+        }
+
+        .skill-card h3 {
+            font-size: 1.6em;
+            margin-bottom: 15px;
+            background: linear-gradient(90deg, #0ff, #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+
+        .skill-card p {
+            color: #bbb;
+            line-height: 1.7;
+            font-size: 0.95em;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+
+        .project-card {
+            background: rgba(255, 0, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            border: 2px solid rgba(255, 0, 255, 0.3);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .project-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            border-color: #f0f;
+            box-shadow: 0 30px 80px rgba(255, 0, 255, 0.5),
+                        0 0 50px rgba(0, 255, 255, 0.3),
+                        inset 0 0 30px rgba(255, 0, 255, 0.1);
+        }
+
+        .project-card h3 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            background: linear-gradient(90deg, #f0f, #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+
+        .project-card p {
+            color: #ccc;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .tech-tag {
+            display: inline-block;
+            padding: 8px 16px;
+            margin: 5px 5px 5px 0;
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid rgba(0, 255, 255, 0.5);
+            border-radius: 25px;
+            font-size: 0.85em;
+            color: #0ff;
+            transition: all 0.3s ease;
+            animation: tagPulse 2s ease-in-out infinite;
+        }
+
+        .tech-tag:nth-child(2) { animation-delay: 0.2s; }
+        .tech-tag:nth-child(3) { animation-delay: 0.4s; }
+        .tech-tag:nth-child(4) { animation-delay: 0.6s; }
+
+        @keyframes tagPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .tech-tag:hover {
+            background: rgba(0, 255, 255, 0.3);
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .contact-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: slideLight 3s infinite;
+        }
+
+        @keyframes slideLight {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .contact-card:hover {
+            transform: translateY(-15px) rotateZ(-2deg);
+            border-color: #0ff;
+            box-shadow: 0 30px 80px rgba(0, 255, 255, 0.3),
+                        0 0 50px rgba(255, 0, 255, 0.2);
+        }
+
+        .contact-card span {
+            display: block;
+            color: #0ff;
+            font-size: 0.8em;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .contact-card a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .contact-card:hover a {
+            color: #0ff;
+            text-shadow: 0 0 10px #0ff;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5em; }
+            .profile-img { width: 180px; height: 180px; }
+            .glow-ring { width: 220px; height: 220px; }
+            .skills-grid, .projects-grid, .contact-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="custom-cursor"></div>
+    <canvas id="stars"></canvas>
+    
+    <div class="container">
+        <header>
+            <div class="hero">
+                <div class="profile-container">
+                    <div class="glow-ring"></div>
+                    <img src="https://via.placeholder.com/220" alt="Foto Profissional" class="profile-img">
+                </div>
+                <h1>Seu Nome</h1>
+                <p class="role">Full Stack Developer</p>
+                <p class="bio">
+                    Construindo experiências digitais que transcendem o comum. 
+                    Especializado em transformar ideias complexas em soluções elegantes e escaláveis.
+                </p>
+            </div>
+        </header>
+
+        <section>
+            <h2>Expertise</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <h3>Front-end</h3>
+                    <p>React, Vue.js, TypeScript, Next.js, Tailwind CSS, Framer Motion</p>
+                </div>
+                <div class="skill-card">
+                    <h3>Back-end</h3>
+                    <p>Node.js, Python, Django, GraphQL, REST APIs, Microservices</p>
+                </div>
+                <div class="skill-card">
+                    <h3>Database</h3>
+                    <p>PostgreSQL, MongoDB, Redis, Prisma, Database Design</p>
+                </div>
+                <div class="skill-card">
+                    <h3>DevOps</h3>
+                    <p>Docker, Kubernetes, AWS, CI/CD, Linux, Cloud Architecture</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Projetos</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3>Plataforma E-commerce Neural</h3>
+                    <p>Sistema de vendas com IA para recomendações personalizadas, processamento de pagamentos em tempo real e analytics avançado.</p>
+                    <div>
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">Node.js</span>
+                        <span class="tech-tag">PostgreSQL</span>
+                        <span class="tech-tag">AI/ML</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3>Dashboard Quantum</h3>
+                    <p>Visualização de dados em tempo real com gráficos 3D interativos e processamento de milhões de eventos por segundo.</p>
+                    <div>
+                        <span class="tech-tag">Vue.js</span>
+                        <span class="tech-tag">Three.js</span>
+                        <span class="tech-tag">WebGL</span>
+                        <span class="tech-tag">Redis</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3>Microservices Hub</h3>
+                    <p>Arquitetura distribuída escalável com event sourcing, autenticação zero-trust e orquestração automatizada.</p>
+                    <div>
+                        <span class="tech-tag">Docker</span>
+                        <span class="tech-tag">Kubernetes</span>
+                        <span class="tech-tag">GraphQL</span>
+                        <span class="tech-tag">AWS</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Conexão</h2>
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <span>Email</span>
+                    <a href="mailto:seu.email@exemplo.com">seu.email@exemplo.com</a>
+                </div>
+                <div class="contact-card">
+                    <span>GitHub</span>
+                    <a href="https://github.com/seuusuario" target="_blank">github.com/seuusuario</a>
+                </div>
+                <div class="contact-card">
+                    <span>LinkedIn</span>
+                    <a href="https://linkedin.com/in/seuusuario" target="_blank">linkedin.com/in/seuusuario</a>
+                </div>
+                <div class="contact-card">
+                    <span>Telefone</span>
+                    <a href="tel:+5561999999999">+55 61 99999-9999</a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('stars');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+        let shootingStars = [];
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = document.body.scrollHeight;
+        }
+
+        class Star {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3;
+                this.speedY = Math.random() * 0.8;
+                this.opacity = Math.random();
+                this.opacityChange = (Math.random() - 0.5) * 0.02;
+                this.color = Math.random() > 0.5 ? '#0ff' : '#f0f';
+            }
+
+            update() {
+                this.y += this.speedY;
+                this.opacity += this.opacityChange;
+                
+                if (this.opacity <= 0 || this.opacity >= 1) {
+                    this.opacityChange *= -1;
+                }
+                
+                if (this.y > canvas.height) {
+                    this.y = 0;
+                    this.x = Math.random() * canvas.width;
+                }
+            }
+
+            draw() {
+                ctx.fillStyle = this.color.replace(')', `, ${this.opacity})`).replace('ff', 'ff');
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            }
+        }
+
+        class ShootingStar {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height / 2;
+                this.length = Math.random() * 120 + 60;
+                this.speed = Math.random() * 15 + 15;
+                this.opacity = 1;
+                this.fadeSpeed = 0.015;
+                this.color = Math.random() > 0.5 ? '#0ff' : '#f0f';
+            }
+
+            update() {
+                this.x += this.speed;
+                this.y += this.speed * 0.4;
+                this.opacity -= this.fadeSpeed;
+            }
+
+            draw() {
+                ctx.save();
+                const gradient = ctx.createLinearGradient(
+                    this.x, this.y,
+                    this.x - this.length, this.y - this.length * 0.4
+                );
+                gradient.addColorStop(0, this.color.replace(')', `, ${this.opacity})`).replace('ff', 'ff'));
+                gradient.addColorStop(1, this.color.replace(')', ', 0)').replace('ff', 'ff'));
+                
+                ctx.strokeStyle = gradient;
+                ctx.lineWidth = 3;
+                ctx.shadowBlur = 20;
+                ctx.shadowColor = this.color;
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(this.x - this.length, this.y - this.length * 0.4);
+                ctx.stroke();
+                ctx.restore();
+            }
+        }
+
+        class Particle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 5 + 2;
+                this.speedX = (Math.random() - 0.5) * 3;
+                this.speedY = (Math.random() - 0.5) * 3;
+                this.opacity = 1;
+                this.color = Math.random() > 0.5 ? '#0ff' : '#f0f';
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.opacity -= 0.02;
+                this.size *= 0.98;
+            }
+
+            draw() {
+                ctx.fillStyle = this.color.replace(')', `, ${this.opacity})`).replace('ff', 'ff');
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            }
+        }
+
+        function init() {
+            resizeCanvas();
+            stars = [];
+            for (let i = 0; i < 300; i++) {
+                stars.push(new Star());
+            }
+        }
+
+        function animate() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+
+            if (Math.random() < 0.02) {
+                shootingStars.push(new ShootingStar());
+            }
+
+            shootingStars = shootingStars.filter(star => star.opacity > 0);
+            shootingStars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+
+            particles = particles.filter(p => p.opacity > 0);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        init();
+        animate();
+
+        const cursor = document.querySelector('.custom-cursor');
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+
+            if (Math.random() < 0.3) {
+                const trail = document.createElement('div');
+                trail.className = 'cursor-trail';
+                trail.style.left = e.clientX + 'px';
+                trail.style.top = e.clientY + 'px';
+                document.body.appendChild(trail);
+                setTimeout(() => trail.remove(), 1000);
+
+                for (let i = 0; i < 3; i++) {
+                    particles.push(new Particle(e.clientX, e.clientY + window.scrollY));
+                }
+            }
+
+            if (Math.random() < 0.05) {
+                const star = new Star();
+                star.x = e.clientX + (Math.random() - 0.5) * 150;
+                star.y = e.clientY + window.scrollY + (Math.random() - 0.5) * 150;
+                star.size = Math.random() * 4;
+                stars.push(star);
+                
+                if (stars.length > 500) {
+                    stars.shift();
+                }
+            }
+        });
+
+        function updateCursor() {
+            cursorX += (mouseX - cursorX) * 0.2;
+            cursorY += (mouseY - cursorY) * 0.2;
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
+            requestAnimationFrame(updateCursor);
+        }
+        updateCursor();
+
+        document.querySelectorAll('a, .skill-card, .project-card, .contact-card').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'scale(2)';
+                cursor.style.borderColor = '#f0f';
+            });
+            el.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'scale(1)';
+                cursor.style.borderColor = '#0ff';
+            });
+        });
+    </script>
+</body>
+</html>
