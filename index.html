@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfólio - Desenvolvedor Full Stack</title>
+    <title>Jefferson | Desenvolvedor Full Stack</title>
+
     <style>
         * {
             margin: 0;
@@ -16,6 +17,44 @@
             background: #000;
             color: #fff;
             overflow-x: hidden;
+            cursor: none;
+        }
+
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #5ea6d6;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: width 0.2s ease, height 0.2s ease, background 0.2s ease;
+            transform: translate(-50%, -50%);
+            will-change: transform;
+        }
+
+        .cursor-follower {
+            width: 40px;
+            height: 40px;
+            background: rgba(94, 166, 214, 0.1);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: width 0.2s ease, height 0.2s ease;
+            transform: translate(-50%, -50%);
+            will-change: transform;
+        }
+
+        .cursor.hover {
+            width: 40px;
+            height: 40px;
+            background: rgba(94, 166, 214, 0.2);
+        }
+
+        .cursor-follower.hover {
+            width: 60px;
+            height: 60px;
         }
 
         canvas {
@@ -55,20 +94,45 @@
             margin-bottom: 40px;
         }
 
+        .profile-container::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            height: 60%;
+            background: radial-gradient(ellipse at center, rgba(94, 166, 214, 0.4) 0%, rgba(94, 166, 214, 0.2) 30%, transparent 70%);
+            filter: blur(40px);
+            z-index: 3;
+            pointer-events: none;
+            animation: glowPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { 
+                opacity: 0.6;
+                transform: translateX(-50%) scale(1);
+            }
+            50% { 
+                opacity: 0.9;
+                transform: translateX(-50%) scale(1.1);
+            }
+        }
+
         .profile-img {
-            width: 220px;
-            height: 220px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 60px rgba(0, 255, 255, 0.3),
-                        0 0 120px rgba(255, 0, 255, 0.2);
+            width: 400px;
+            height: auto;
             animation: float 6s ease-in-out infinite;
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
+            filter: brightness(1.1) contrast(1.05) saturate(1.1) drop-shadow(0 0 40px rgba(94, 166, 214, 0.6));
+            position: relative;
+            z-index: 2;
         }
 
         .profile-img:hover {
             transform: scale(1.05);
+            filter: brightness(1.15) contrast(1.1) saturate(1.15) drop-shadow(0 0 60px rgba(94, 166, 214, 0.8));
         }
 
         @keyframes float {
@@ -81,11 +145,53 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 260px;
-            height: 260px;
-            border-radius: 50%;
-            border: 1px solid rgba(0, 255, 255, 0.3);
-            animation: rotate 20s linear infinite;
+            width: 420px;
+            height: 650px;
+            border-radius: 45% 45% 50% 50%;
+            border: 2px solid rgba(94, 166, 214, 0.4);
+            animation: pulse 4s ease-in-out infinite;
+            box-shadow: 0 0 60px rgba(94, 166, 214, 0.3),
+                        inset 0 0 60px rgba(94, 166, 214, 0.1);
+            z-index: 1;
+        }
+
+        .glow-ring::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 450px;
+            height: 680px;
+            border-radius: 45% 45% 50% 50%;
+            border: 1px solid rgba(94, 166, 214, 0.2);
+            animation: pulse 6s ease-in-out infinite reverse;
+            box-shadow: 0 0 80px rgba(94, 166, 214, 0.2);
+        }
+
+        .glow-ring::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 390px;
+            height: 620px;
+            border-radius: 45% 45% 50% 50%;
+            border: 1px solid rgba(94, 166, 214, 0.3);
+            animation: pulse 5s ease-in-out infinite;
+            box-shadow: 0 0 40px rgba(94, 166, 214, 0.25);
+        }
+
+        @keyframes pulse {
+            0%, 100% { 
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.8;
+            }
+            50% { 
+                transform: translate(-50%, -50%) scale(1.05);
+                opacity: 1;
+            }
         }
 
         @keyframes rotate {
@@ -97,11 +203,11 @@
             font-size: 4em;
             font-weight: 800;
             margin-bottom: 20px;
-            background: linear-gradient(90deg, #00ffff, #ff00ff, #00ffff);
+            background: linear-gradient(90deg, #ffffff, #5ea6d6, #aaaaaa);
             background-size: 200% auto;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: gradient 3s ease infinite;
+            animation: gradient 4s ease infinite;
             letter-spacing: -2px;
         }
 
@@ -167,7 +273,7 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, rgba(0, 255, 255, 0.1) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(94, 166, 214, 0.08) 0%, transparent 70%);
             opacity: 0;
             transition: opacity 0.4s;
         }
@@ -178,14 +284,14 @@
 
         .skill-card:hover {
             transform: translateY(-10px);
-            border-color: rgba(0, 255, 255, 0.5);
-            box-shadow: 0 20px 60px rgba(0, 255, 255, 0.2);
+            border-color: rgba(94, 166, 214, 0.4);
+            box-shadow: 0 20px 60px rgba(94, 166, 214, 0.15);
         }
 
         .skill-card h3 {
             font-size: 1.4em;
             margin-bottom: 15px;
-            color: #00ffff;
+            color: #5ea6d6;
             font-weight: 600;
         }
 
@@ -219,7 +325,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
             transition: left 0.5s;
         }
 
@@ -229,14 +335,14 @@
 
         .project-card:hover {
             transform: translateY(-10px) scale(1.02);
-            border-color: rgba(255, 0, 255, 0.5);
-            box-shadow: 0 20px 60px rgba(255, 0, 255, 0.3);
+            border-color: rgba(94, 166, 214, 0.4);
+            box-shadow: 0 20px 60px rgba(94, 166, 214, 0.2);
         }
 
         .project-card h3 {
             font-size: 1.6em;
             margin-bottom: 15px;
-            color: #ff00ff;
+            color: #5ea6d6;
             font-weight: 700;
         }
 
@@ -250,11 +356,11 @@
             display: inline-block;
             padding: 6px 12px;
             margin: 5px 5px 5px 0;
-            background: rgba(0, 255, 255, 0.1);
-            border: 1px solid rgba(0, 255, 255, 0.3);
+            background: rgba(94, 166, 214, 0.1);
+            border: 1px solid rgba(94, 166, 214, 0.3);
             border-radius: 20px;
             font-size: 0.85em;
-            color: #00ffff;
+            color: #5ea6d6;
         }
 
         .contact-grid {
@@ -277,8 +383,8 @@
 
         .contact-card:hover {
             transform: translateY(-10px);
-            border-color: rgba(0, 255, 255, 0.5);
-            box-shadow: 0 20px 60px rgba(0, 255, 255, 0.2);
+            border-color: rgba(94, 166, 214, 0.4);
+            box-shadow: 0 20px 60px rgba(94, 166, 214, 0.15);
         }
 
         .contact-card span {
@@ -300,7 +406,31 @@
         }
 
         .contact-card:hover a {
-            color: #00ffff;
+            color: #5ea6d6;
+        }
+
+        footer {
+            margin-top: 100px;
+            padding: 40px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .footer-text p {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+            font-weight: 400;
+        }
+
+        .footer-subtitle {
+            color: #444;
+            font-size: 0.8em !important;
         }
 
         @media (max-width: 768px) {
@@ -309,13 +439,22 @@
             }
 
             .profile-img {
-                width: 180px;
-                height: 180px;
+                width: 280px;
             }
 
             .glow-ring {
-                width: 220px;
-                height: 220px;
+                width: 300px;
+                height: 460px;
+            }
+
+            .glow-ring::before {
+                width: 320px;
+                height: 480px;
+            }
+
+            .glow-ring::after {
+                width: 280px;
+                height: 440px;
             }
 
             .skills-grid,
@@ -327,6 +466,8 @@
     </style>
 </head>
 <body>
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
     <canvas id="stars"></canvas>
     
     <div class="container">
@@ -334,13 +475,12 @@
             <div class="hero">
                 <div class="profile-container">
                     <div class="glow-ring"></div>
-                    <img src="https://via.placeholder.com/220" alt="Foto Profissional" class="profile-img">
+                    <img src="https://res.cloudinary.com/dznmamcz6/image/upload/v1765328641/jefferson_transparente_jntaqa.png" alt="Foto Profissional" class="profile-img">
                 </div>
-                <h1>Seu Nome</h1>
+                <h1>Jefferson De Sousa</h1>
                 <p class="role">Full Stack Developer</p>
                 <p class="bio">
-                    Construindo experiências digitais que transcendem o comum. 
-                    Especializado em transformar ideias complexas em soluções elegantes e escaláveis.
+                   Especialista em projetar e implementar sistemas digitais robustos, escaláveis e alinhados às necessidades do negócio.
                 </p>
             </div>
         </header>
@@ -408,25 +548,81 @@
             <div class="contact-grid">
                 <div class="contact-card">
                     <span>Email</span>
-                    <a href="mailto:seu.email@exemplo.com">seu.email@exemplo.com</a>
+                    <a href="mailto:jeffersonbt2001@gmail.com">jeffersonbt2001@gmail.com</a>
                 </div>
                 <div class="contact-card">
                     <span>GitHub</span>
-                    <a href="https://github.com/seuusuario" target="_blank">github.com/seuusuario</a>
+                    <a href="https://github.com/JeffVane" target="_blank">github.com/JeffVane</a>
                 </div>
+            
                 <div class="contact-card">
-                    <span>LinkedIn</span>
-                    <a href="https://linkedin.com/in/seuusuario" target="_blank">linkedin.com/in/seuusuario</a>
-                </div>
-                <div class="contact-card">
-                    <span>Telefone</span>
-                    <a href="tel:+5561999999999">+55 61 99999-9999</a>
+                    <span>WhatsApp</span>
+                    <a href="https://wa.me/5561992866461" target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" 
+                             viewBox="0 0 32 32" fill="#25D366" style="vertical-align: middle; margin-right: 6px;">
+                            <path d="M16.001 3.2c-7.059 0-12.8 5.74-12.8 12.8 0 2.259.589 4.463 1.709 6.4L3.2 28.8l6.59-1.689c1.866 1.02 3.97 1.589 6.211 1.589 7.059 0 12.8-5.74 12.8-12.8s-5.74-12.8-12.8-12.8zm0 23.467c-1.969 0-3.889-.53-5.568-1.536l-.398-.236-3.91 1.002 1.044-3.81-.259-.391c-1.059-1.596-1.621-3.448-1.621-5.36 0-5.427 4.427-9.854 9.854-9.854s9.854 4.427 9.854 9.854-4.427 9.854-9.854 9.854zm5.355-7.466c-.291-.145-1.719-.848-1.986-.944-.267-.099-.46-.145-.653.145-.196.291-.748.944-.916 1.137-.171.196-.337.22-.628.075-.291-.145-1.23-.452-2.343-1.44-.867-.773-1.453-1.726-1.625-2.017-.171-.291-.018-.448.128-.593.132-.132.291-.346.436-.518.145-.171.192-.291.291-.484.099-.196.048-.365-.024-.512-.075-.145-.653-1.573-.896-2.154-.236-.567-.478-.49-.653-.5l-.557-.01c-.196 0-.512.075-.78.365-.267.291-1.02.996-1.02 2.427 0 1.431 1.044 2.815 1.192 3.011.145.196 2.053 3.134 5.005 4.394.699.301 1.245.48 1.67.614.701.223 1.337.192 1.84.117.561-.084 1.719-.703 1.963-1.384.243-.68.243-1.263.171-1.384-.075-.117-.267-.196-.557-.34z"/>
+                        </svg>
+                        +55 61 9 9286-6461
+                    </a>
                 </div>
             </div>
         </section>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-text">
+                    <p>&copy; 2024 Jefferson De Sousa. Todos os direitos reservados.</p>
+                    <p class="footer-subtitle">Desenvolvido com dedicação e tecnologia</p>
+                </div>
+            </div>
+        </footer>
     </div>
 
     <script>
+        // Cursor customizado com melhor performance
+        const cursor = document.querySelector('.cursor');
+        const cursorFollower = document.querySelector('.cursor-follower');
+        
+        let mouseX = 0;
+        let mouseY = 0;
+        let followerX = 0;
+        let followerY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function updateCursor() {
+            // Atualiza cursor principal
+            cursor.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
+            
+            // Atualiza cursor seguidor com suavização
+            followerX += (mouseX - followerX) * 0.15;
+            followerY += (mouseY - followerY) * 0.15;
+            
+            cursorFollower.style.transform = `translate(${followerX}px, ${followerY}px) translate(-50%, -50%)`;
+            
+            requestAnimationFrame(updateCursor);
+        }
+        updateCursor();
+
+        // Efeito hover em elementos clicáveis
+        const hoverElements = document.querySelectorAll('a, button, .skill-card, .project-card, .contact-card');
+        
+        hoverElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.classList.add('hover');
+                cursorFollower.classList.add('hover');
+            });
+            
+            el.addEventListener('mouseleave', () => {
+                cursor.classList.remove('hover');
+                cursorFollower.classList.remove('hover');
+            });
+        });
+
+        // Canvas de estrelas
         const canvas = document.getElementById('stars');
         const ctx = canvas.getContext('2d');
         let stars = [];
@@ -487,7 +683,7 @@
 
             draw() {
                 ctx.save();
-                ctx.strokeStyle = `rgba(0, 255, 255, ${this.opacity})`;
+                ctx.strokeStyle = `rgba(94, 166, 214, ${this.opacity})`;
                 ctx.lineWidth = 2;
                 ctx.beginPath();
                 ctx.moveTo(this.x, this.y);
