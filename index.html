@@ -20,6 +20,7 @@
             cursor: none;
         }
 
+        /* --- Cursor Customizado --- */
         .cursor {
             width: 20px;
             height: 20px;
@@ -72,135 +73,22 @@
             z-index: 2;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 0 20px;
         }
 
+        /* --- Header / Hero (Agora só texto) --- */
         header {
-            min-height: 100vh;
+            min-height: 80vh; /* Altura um pouco menor já que não tem foto */
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            position: relative;
-        }
-
-        .hero {
             text-align: center;
-            padding: 40px;
-        }
-
-        .profile-container {
             position: relative;
-            display: inline-block;
-            margin-bottom: 40px;
-        }
-
-        .profile-container::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            height: 60%;
-            background: radial-gradient(ellipse at center, rgba(94, 166, 214, 0.4) 0%, rgba(94, 166, 214, 0.2) 30%, transparent 70%);
-            filter: blur(40px);
-            z-index: 3;
-            pointer-events: none;
-            animation: glowPulse 3s ease-in-out infinite;
-        }
-
-        @keyframes glowPulse {
-            0%, 100% { 
-                opacity: 0.6;
-                transform: translateX(-50%) scale(1);
-            }
-            50% { 
-                opacity: 0.9;
-                transform: translateX(-50%) scale(1.1);
-            }
-        }
-
-        .profile-img {
-            width: 400px;
-            height: auto;
-            animation: float 6s ease-in-out infinite;
-            transition: all 0.3s ease;
-            filter: brightness(1.1) contrast(1.05) saturate(1.1) drop-shadow(0 0 40px rgba(94, 166, 214, 0.6));
-            position: relative;
-            z-index: 2;
-        }
-
-        .profile-img:hover {
-            transform: scale(1.05);
-            filter: brightness(1.15) contrast(1.1) saturate(1.15) drop-shadow(0 0 60px rgba(94, 166, 214, 0.8));
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-
-        .glow-ring {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 420px;
-            height: 650px;
-            border-radius: 45% 45% 50% 50%;
-            border: 2px solid rgba(94, 166, 214, 0.4);
-            animation: pulse 4s ease-in-out infinite;
-            box-shadow: 0 0 60px rgba(94, 166, 214, 0.3),
-                        inset 0 0 60px rgba(94, 166, 214, 0.1);
-            z-index: 1;
-        }
-
-        .glow-ring::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 450px;
-            height: 680px;
-            border-radius: 45% 45% 50% 50%;
-            border: 1px solid rgba(94, 166, 214, 0.2);
-            animation: pulse 6s ease-in-out infinite reverse;
-            box-shadow: 0 0 80px rgba(94, 166, 214, 0.2);
-        }
-
-        .glow-ring::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 390px;
-            height: 620px;
-            border-radius: 45% 45% 50% 50%;
-            border: 1px solid rgba(94, 166, 214, 0.3);
-            animation: pulse 5s ease-in-out infinite;
-            box-shadow: 0 0 40px rgba(94, 166, 214, 0.25);
-        }
-
-        @keyframes pulse {
-            0%, 100% { 
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 0.8;
-            }
-            50% { 
-                transform: translate(-50%, -50%) scale(1.05);
-                opacity: 1;
-            }
-        }
-
-        @keyframes rotate {
-            0% { transform: translate(-50%, -50%) rotate(0deg); }
-            100% { transform: translate(-50%, -50%) rotate(360deg); }
         }
 
         h1 {
-            font-size: 4em;
+            font-size: 5em; /* Aumentei um pouco para compensar a falta da foto */
             font-weight: 800;
             margin-bottom: 20px;
             background: linear-gradient(90deg, #ffffff, #5ea6d6, #aaaaaa);
@@ -217,20 +105,12 @@
         }
 
         .role {
-            font-size: 1.5em;
+            font-size: 1.8em;
             color: #888;
-            margin-bottom: 30px;
-            letter-spacing: 4px;
+            letter-spacing: 6px;
             text-transform: uppercase;
             font-weight: 300;
-        }
-
-        .bio {
-            font-size: 1.1em;
-            color: #aaa;
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.8;
+            margin-bottom: 0;
         }
 
         section {
@@ -248,11 +128,90 @@
             letter-spacing: 3px;
         }
 
+        /* --- Nova Seção Sobre Mim (Estilo 3x4) --- */
+        .about-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 60px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .photo-frame {
+            position: relative;
+            width: 300px;  /* Largura */
+            height: 400px; /* Altura (Proporção 3x4) */
+            flex-shrink: 0;
+            border-radius: 12px;
+            border: 1px solid rgba(94, 166, 214, 0.3);
+            background: radial-gradient(circle at center, rgba(94, 166, 214, 0.15) 0%, rgba(0,0,0,0.8) 100%);
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(94, 166, 214, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .photo-frame:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(94, 166, 214, 0.2);
+            border-color: rgba(94, 166, 214, 0.6);
+        }
+
+        /* Linhas decorativas da moldura (efeito tech) */
+        .photo-frame::before, .photo-frame::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-color: #5ea6d6;
+            border-style: solid;
+            transition: all 0.3s ease;
+        }
+
+        .photo-frame::before {
+            top: 10px;
+            left: 10px;
+            border-width: 2px 0 0 2px;
+        }
+
+        .photo-frame::after {
+            bottom: 10px;
+            right: 10px;
+            border-width: 0 2px 2px 0;
+        }
+
+        .profile-img-3x4 {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Garante que preencha o 3x4 */
+            object-position: top center; /* Foca no rosto */
+            filter: saturate(1.1) contrast(1.1);
+            /* Como sua foto é PNG transparente, adicionei um pouco de padding inferior para não cortar */
+            transform: scale(1.1) translateY(20px); 
+        }
+
+        .about-text {
+            max-width: 500px;
+        }
+
+        .about-text h3 {
+            font-size: 2em;
+            color: #5ea6d6;
+            margin-bottom: 20px;
+        }
+
+        .about-text p {
+            font-size: 1.1em;
+            color: #ccc;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        /* --- Expertise Grid --- */
         .skills-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 30px;
-            margin-top: 60px;
         }
 
         .skill-card {
@@ -264,22 +223,6 @@
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
-        }
-
-        .skill-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(94, 166, 214, 0.08) 0%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.4s;
-        }
-
-        .skill-card:hover::before {
-            opacity: 1;
         }
 
         .skill-card:hover {
@@ -301,6 +244,7 @@
             font-size: 0.95em;
         }
 
+        /* --- Projects Grid --- */
         .projects-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -316,21 +260,6 @@
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
-        }
-
-        .project-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
-            transition: left 0.5s;
-        }
-
-        .project-card:hover::after {
-            left: 100%;
         }
 
         .project-card:hover {
@@ -363,6 +292,7 @@
             color: #5ea6d6;
         }
 
+        /* --- Contact --- */
         .contact-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -416,51 +346,30 @@
             text-align: center;
         }
 
-        .footer-content {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
         .footer-text p {
             color: #666;
             font-size: 0.9em;
             margin-bottom: 8px;
-            font-weight: 400;
         }
 
-        .footer-subtitle {
-            color: #444;
-            font-size: 0.8em !important;
-        }
-
+        /* --- Mobile --- */
         @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5em;
+            h1 { font-size: 3em; }
+            .role { font-size: 1.2em; }
+            
+            .about-container {
+                flex-direction: column;
+                text-align: center;
             }
 
-            .profile-img {
-                width: 280px;
+            .photo-frame {
+                width: 240px;
+                height: 320px;
+                margin: 0 auto;
             }
-
-            .glow-ring {
-                width: 300px;
-                height: 460px;
-            }
-
-            .glow-ring::before {
-                width: 320px;
-                height: 480px;
-            }
-
-            .glow-ring::after {
-                width: 280px;
-                height: 440px;
-            }
-
-            .skills-grid,
-            .projects-grid,
-            .contact-grid {
-                grid-template-columns: 1fr;
+            
+            .about-text {
+                padding: 0 20px;
             }
         }
     </style>
@@ -471,17 +380,11 @@
     <canvas id="stars"></canvas>
     
     <div class="container">
+        <!-- HEADER SEM A FOTO -->
         <header>
             <div class="hero">
-                <div class="profile-container">
-                    <div class="glow-ring"></div>
-                    <img src="https://res.cloudinary.com/dznmamcz6/image/upload/v1765328641/jefferson_transparente_jntaqa.png" alt="Foto Profissional" class="profile-img">
-                </div>
                 <h1>Jefferson De Sousa</h1>
                 <p class="role">Full Stack Developer</p>
-                <p class="bio">
-                   Especialista em projetar e implementar sistemas digitais robustos, escaláveis e alinhados às necessidades do negócio.
-                </p>
             </div>
         </header>
 
@@ -503,6 +406,26 @@
                 <div class="skill-card">
                     <h3>DevOps</h3>
                     <p>Docker, Kubernetes, AWS, CI/CD, Linux, Cloud Architecture</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- NOVA SEÇÃO SOBRE MIM COM FOTO 3x4 -->
+        <section id="sobre">
+            <div class="about-container">
+                <!-- Moldura 3x4 -->
+                <div class="photo-frame">
+                    <img src="https://res.cloudinary.com/dznmamcz6/image/upload/v1765328641/jefferson_transparente_jntaqa.png" alt="Jefferson De Sousa" class="profile-img-3x4">
+                </div>
+                
+                <div class="about-text">
+                    <h3>Sobre Mim</h3>
+                    <p>
+                        Especialista em projetar e implementar sistemas digitais robustos. Meu foco está na criação de soluções escaláveis que não apenas funcionam tecnicamente, mas que geram valor real para o negócio.
+                    </p>
+                    <p>
+                        Com um background sólido em arquitetura de software e experiência full stack, atuo desde a concepção da interface até a otimização de banco de dados e infraestrutura.
+                    </p>
                 </div>
             </div>
         </section>
@@ -554,7 +477,7 @@
                     <span>GitHub</span>
                     <a href="https://github.com/JeffVane" target="_blank">github.com/JeffVane</a>
                 </div>
-            
+                
                 <div class="contact-card">
                     <span>WhatsApp</span>
                     <a href="https://wa.me/5561992866461" target="_blank">
@@ -571,8 +494,7 @@
         <footer>
             <div class="footer-content">
                 <div class="footer-text">
-                    <p>&copy; 2025
-                        Jefferson De Sousa. Todos os direitos reservados.</p>
+                    <p>&copy; 2025 Jefferson De Sousa. Todos os direitos reservados.</p>
                     <p class="footer-subtitle">Desenvolvido com dedicação e tecnologia</p>
                 </div>
             </div>
@@ -609,7 +531,7 @@
         updateCursor();
 
         // Efeito hover em elementos clicáveis
-        const hoverElements = document.querySelectorAll('a, button, .skill-card, .project-card, .contact-card');
+        const hoverElements = document.querySelectorAll('a, button, .skill-card, .project-card, .contact-card, .photo-frame');
         
         hoverElements.forEach(el => {
             el.addEventListener('mouseenter', () => {
@@ -703,8 +625,7 @@
         }
 
         function animate() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Usando clearRect para limpar
 
             stars.forEach(star => {
                 star.update();
@@ -724,7 +645,11 @@
             requestAnimationFrame(animate);
         }
 
-        window.addEventListener('resize', resizeCanvas);
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            init(); // Reinicia estrelas para preencher nova altura
+        });
+        
         init();
         animate();
 
